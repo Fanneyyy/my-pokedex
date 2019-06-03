@@ -1,5 +1,27 @@
 # my-pokedex
 
+## Greetings
+Welcome fellow traveler. It's time to dive into the world of hooks. You might even "hook" some Pokemon 😅
+
+### The objective
+Implement a Pokedex using react hooks.
+
+### Scoring
+- (10 pt) Display a list of the Pokemon
+- (10 pt) Select a Pokemon and open in a modal with more information
+- (10 pt) Use refs to implement an close on click outside the modal
+- (10 pt) Search a Pokemon by name
+- (10 pt) Navigate inside a modal to the next/previous Pokemon using the arrow keys
+- (10 pt) Mark a Pokemon as favorite
+- (10 pt) Filter Pokemon by favorites
+
+### Resources
+- Basic UI to copy: https://pokedex.org/
+- GraphQL API https://graphql-pokemon.now.sh/
+
+### Scoring and Reward
+The team with the highest score wins. E.g. if team A has 50 points and team B has 40 points, team A will be the winner. (Please don't name your team either A or B, they are taken!) The reward will depend on the winners.
+
 ## Run Project
 
 ```sh
@@ -21,16 +43,3 @@ Note that any hot reload on a route will fall back to the root (`/`), so `Reason
 
 To use a port other than 8000 set the `PORT` environment variable (`PORT=8080 npm run server`).
 
-## Build for Production
-
-```sh
-npm run clean
-npm run build
-npm run webpack:production
-```
-
-This will replace the development artifact `build/Index.js` for an optimized version as well as copy `src/index.html` into `build/`. You can then deploy the contents of the `build` directory (`index.html` and `Index.js`).
-
-If you make use of routing (via `ReasonReact.Router` or similar logic) ensure that server-side routing handles your routes or that 404's are directed back to `index.html` (which is how the dev server is set up).
-
-**To enable dead code elimination**, change `bsconfig.json`'s `package-specs` `module` from `"commonjs"` to `"es6"`. Then re-run the above 2 commands. This will allow Webpack to remove unused code.
