@@ -1,21 +1,30 @@
-
 {
   "name": "react-hooks-template",
   "reason": {
     "react-jsx": 3
   },
   "sources": {
-    "dir" : "src",
-    "subdirs" : true
+    "dir": "src",
+    "subdirs": true
   },
-  "package-specs": [{
-    "module": "es6",
-    "in-source": true
-  }],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
   "suffix": ".bs.js",
   "namespace": true,
   "bs-dependencies": [
+    "@glennsl/bs-json",
+    "bs-fetch",
     "reason-react"
+  ],
+  "ppx-flags": [
+    "graphql_ppx/ppx"
+  ],
+  "bsc-flags": [
+    "-open Belt"
   ],
   "refmt": 3
 }
