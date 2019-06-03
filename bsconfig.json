@@ -17,6 +17,7 @@
   "namespace": true,
   "bs-dependencies": [
     "@glennsl/bs-json",
+    "bs-css"
     "bs-fetch",
     "reason-react"
   ],
