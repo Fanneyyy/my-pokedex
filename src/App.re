@@ -3,8 +3,18 @@ open Css;
 [@react.component]
 let make = () => {
   React.useEffect0(() => {
-    Pokedex.GetPickachu.Query.query()
-    |> Js.Promise.then_(response => Js.log(response) |> Js.Promise.resolve);
+    Pokedex.GetPokemons.Query.query()
+    |> Js.Promise.then_(response =>
+         (
+           switch (response) {
+           | `Data(data)
+           | `DataWithError(data, _) => Js.log(data)
+           | `Error(_) => Js.log("Some error I guess :(")
+           }
+         )
+         |> Js.Promise.resolve
+       )
+    |> ignore;
     None;
   });
   <div className={style([margin(px(16))])}>

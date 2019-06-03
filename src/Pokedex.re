@@ -3,11 +3,11 @@ module BaseClient = (Query: GraphQLFetchClient.QueryConfig) => {
   module Query = Query;
 };
 
-module GetPickachu = {
+module GetPokemons = {
   module GraphQL = [%graphql
     {|
     {
-      pokemon(name:"Pikachu") {
+      pokemons(first: 151) {
         id
         number
         name
