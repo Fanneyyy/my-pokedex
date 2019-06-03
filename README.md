@@ -13,6 +13,7 @@ Implement a Pokedex using react hooks.
 - (10 pt) Search a Pokemon by name
 - (10 pt) Navigate inside a modal to the next/previous Pokemon using the arrow keys
 - (10 pt) Mark a Pokemon as favorite
+- (10 pt) Filter Pokemon by favorites
 
 ### Resources
 - Basic UI to copy: https://pokedex.org/
