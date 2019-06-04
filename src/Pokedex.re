@@ -12,11 +12,13 @@ module GetPokemons = {
         number
         name
         image
+        types
         evolutions {
           id
           number
           name
           image
+          types
         }
       }
     }

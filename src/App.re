@@ -1,5 +1,7 @@
 open Css;
 
+Utils.cssReset();
+
 [@react.component]
 let make = () => {
   React.useEffect0(() => {
