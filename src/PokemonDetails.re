@@ -4,6 +4,8 @@ open Css;
 let make = (~pokemon, ~onClick) =>
   <button
     className={style([
+      width(pct(100.)),
+      height(pct(100.)),
       margin(px(10)),
       hover([opacity(0.7), cursor(`pointer)]),
     ])}
@@ -12,7 +14,7 @@ let make = (~pokemon, ~onClick) =>
     <div>
       {Option.mapWithDefault(pokemon##image, React.null, image =>
          <img
-           className={style([height(px(300)), width(px(300))])}
+           className={style([height(px(600)), width(px(600))])}
            src=image
          />
        )}
@@ -37,12 +39,16 @@ let make = (~pokemon, ~onClick) =>
         className={style([
           display(`flex),
           justifyContent(`center),
+          flexDirection(`column),
           background(hex("00000099")),
           color(white),
           fontSize(px(20)),
         ])}>
         {Option.mapWithDefault(pokemon##name, React.null, name =>
            <p> {React.string(name)} </p>
+         )}
+        {Option.mapWithDefault(pokemon##name, React.null, name =>
+           <p> {React.string("Some more details...")} </p>
          )}
       </div>
     </div>

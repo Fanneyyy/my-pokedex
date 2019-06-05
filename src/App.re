@@ -10,7 +10,7 @@ let make = () => {
          (
            switch (response) {
            | `Data(data)
-           | `DataWithError(data, _) => Js.log(data)
+           | `DataWithError(data, _) => Js.log(data) /* TODO: Store response */
            | `Error(_) => Js.log("Some error I guess :(")
            }
          )
@@ -44,6 +44,23 @@ let make = () => {
         ])}
       />
     </div>
-    <div> {ReasonReact.string("List")} </div>
+    <Modal>
+      ...{(renderModal, closeModal) =>
+        /* TODO: Start a timer onClick that closes the modal after 5 seconds */
+        /* TODO: Display PokemonDetails onClick */
+        /* TODO: Display a list of Pokemon */
+
+          <button
+            onClick={_ =>
+              renderModal(
+                <button onClick={_ => closeModal()}>
+                  {React.string("Modal")}
+                </button>,
+              )
+            }>
+            {ReasonReact.string("List")}
+          </button>
+        }
+    </Modal>
   </div>;
 };
