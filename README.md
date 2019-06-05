@@ -9,7 +9,7 @@ Implement a Pokedex using react hooks.
 ### Scoring
 - (10 pt) Display a list of the Pokemon
 - (10 pt) Select a Pokemon and open in a modal with more information
-- (10 pt) Use refs to implement an close on click outside the modal
+- (10 pt) Close the modal after 5 seconds
 - (10 pt) Search a Pokemon by name
 - (10 pt) Navigate inside a modal to the next/previous Pokemon using the arrow keys
 - (10 pt) Mark a Pokemon as favorite
