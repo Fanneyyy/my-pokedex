@@ -8,6 +8,7 @@ let make = () => {
   let (pokemons, setPokemons) = React.useState(() => [||]);
   let (filterPokemons, setFilteredPokemons) = React.useState(() => [||]);
   let (favoritePokemons, setFavoritePokemons) = React.useState(() => [||]);
+  let (showFavorites, toggleFavorites) = React.useState(() => false);
 
   let searchRef = React.useRef(Js.Nullable.null);
   React.useEffect0(() => {
@@ -46,6 +47,27 @@ let make = () => {
     [|query|],
   );
 
+  React.useEffect1(
+    () => {
+      showFavorites
+        ? setFilteredPokemons(_ =>
+            pokemons->(
+                        Array.keep(maybePokemon =>
+                          Belt.Option.mapWithDefault(
+                            maybePokemon, false, pokemon =>
+                            Belt.Array.some(favoritePokemons, fp =>
+                              fp == pokemon##id
+                            )
+                          )
+                        )
+                      )
+          )
+        : setFilteredPokemons(_ => pokemons);
+      None;
+    },
+    [|showFavorites|],
+  );
+
   React.useEffect0(() => {
     Pokedex.GetPokemons.Query.query()
     |> Js.Promise.then_(response =>
@@ -73,6 +95,14 @@ let make = () => {
   <div className={style([margin(px(16))])}>
     <div className={style([fontSize(px(24)), marginBottom(px(16))])}>
       {ReasonReact.string("Pokedex")}
+    </div>
+    <div>
+      {React.string("ShowFavorites")}
+      <input
+        type_="checkbox"
+        checked=showFavorites
+        onChange={_event => toggleFavorites(oldState => !oldState)}
+      />
     </div>
     <div>
       <input
