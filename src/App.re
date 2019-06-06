@@ -7,6 +7,14 @@ let make = () => {
   let (pokemons: option(Pokedex.GetPokemons.GraphQL.t), setPokemons) =
     React.useState(() => None);
 
+  let searchRef = React.useRef(Js.Nullable.null);
+  React.useEffect0(() =>
+    searchRef
+    ->React.Ref.current
+    ->Js.Nullable.toOption
+    ->Option.map(myRef => ReactDOMRe.domElementToObj(myRef)##focus())
+  );
+
   let (search, onSearchChange) = React.useState(() => "");
 
   React.useEffect0(() => {
@@ -32,6 +40,7 @@ let make = () => {
       <input
         value=search
         type_="text"
+        ref={ReactDOMRe.Ref.domRef(searchRef)}
         placeholder="Search for pokemon"
         onChange={event => {
           let e = event->ReactEvent.Form.target##value;
@@ -57,7 +66,6 @@ let make = () => {
     </div>
     <Modal>
       ...{(renderModal, closeModal) =>
-        /* TODO: Filter list of pokemon by search query */
         /* TODO: Focus on search box on page load */
         /* TODO: Mark pokemons as favorites */
         /* TODO: Filter favorite pokemons on 'f' key press */
