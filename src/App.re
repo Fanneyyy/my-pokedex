@@ -4,6 +4,9 @@ Utils.cssReset();
 
 [@react.component]
 let make = () => {
+  let (query, setQuery) = React.useState(() => "");
+  let (pokemons, setPokemons) = React.useState(() => [||]);
+
   let searchRef = React.useRef(Js.Nullable.null);
   React.useEffect0(() => {
     // get focus search
@@ -14,13 +17,18 @@ let make = () => {
     ->ignore;
     None;
   });
+
   React.useEffect0(() => {
     Pokedex.GetPokemons.Query.query()
     |> Js.Promise.then_(response =>
          (
            switch (response) {
            | `Data(data)
-           | `DataWithError(data, _) => Js.log(data) /* TODO: Store response */
+           | `DataWithError(data, _) =>
+             Belt.Option.map(data##pokemons, pokemons =>
+               setPokemons(_ => pokemons)
+             )
+             ->ignore
            | `Error(_) => Js.log("Some error I guess :(")
            }
          )
@@ -29,6 +37,7 @@ let make = () => {
     |> ignore;
     None;
   });
+
   <div className={style([margin(px(16))])}>
     <div className={style([fontSize(px(24)), marginBottom(px(16))])}>
       {ReasonReact.string("Pokedex")}
@@ -38,6 +47,11 @@ let make = () => {
         ref={ReactDOMRe.Ref.domRef(searchRef)}
         type_="text"
         placeholder="Search for pokemon"
+        value=query
+        onChange={event => {
+          ReactEvent.Form.persist(event);
+          setQuery(ReactEvent.Form.target(event)##value);
+        }}
         className={style([
           width(pct(100.)),
           borderStyle(`none),
@@ -54,6 +68,14 @@ let make = () => {
           unsafe("background-position", "right center"),
         ])}
       />
+    </div>
+    <div>
+      {Belt.Array.map(pokemons, maybePokemon =>
+         Option.mapWithDefault(maybePokemon, React.null, pokemon =>
+           <Pokemon key={pokemon##id} pokemon onClick={_ => ()} />
+         )
+       )
+       ->React.array}
     </div>
     <Modal>
       ...{(renderModal, closeModal) =>
