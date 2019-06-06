@@ -6,7 +6,7 @@ Utils.cssReset();
 let make = () => {
   let (query, setQuery) = React.useState(() => "");
   let (pokemons, setPokemons) = React.useState(() => [||]);
-  let (currentPokemon, setCurrentPokemon) = React.useState(() => None);
+  let (filterPokemons, setFilteredPokemons) = React.useState(() => [||]);
 
   let searchRef = React.useRef(Js.Nullable.null);
   React.useEffect0(() => {
@@ -19,6 +19,32 @@ let make = () => {
     None;
   });
 
+  React.useEffect1(
+    () => {
+      setFilteredPokemons(_ =>
+        switch (String.length(query)) {
+        | 0 => pokemons
+        | _ =>
+          pokemons->(
+                      Belt.Array.keep(maybePokemon =>
+                        Belt.Option.mapWithDefault(
+                          maybePokemon, false, pokemon =>
+                          Js.String.includes(
+                            String.lowercase(query),
+                            String.lowercase(
+                              Belt.Option.getWithDefault(pokemon##name, ""),
+                            ),
+                          )
+                        )
+                      )
+                    )
+        }
+      );
+      None;
+    },
+    [|query|],
+  );
+
   React.useEffect0(() => {
     Pokedex.GetPokemons.Query.query()
     |> Js.Promise.then_(response =>
@@ -26,8 +52,12 @@ let make = () => {
            switch (response) {
            | `Data(data)
            | `DataWithError(data, _) =>
-             Belt.Option.map(data##pokemons, pokemons =>
-               setPokemons(_ => pokemons)
+             Belt.Option.map(
+               data##pokemons,
+               pokemons => {
+                 setFilteredPokemons(_ => pokemons);
+                 setPokemons(_ => pokemons);
+               },
              )
              ->ignore
            | `Error(_) => Js.log("Some error I guess :(")
@@ -79,7 +109,7 @@ let make = () => {
         /* TODO: Mark pokemons as favorites */
         /* TODO: Filter favorite pokemons on 'f' key press */
 
-          Belt.Array.map(pokemons, maybePokemon =>
+          Belt.Array.map(filterPokemons, maybePokemon =>
             Option.mapWithDefault(maybePokemon, React.null, pokemon =>
               <Pokemon
                 key={pokemon##id}
