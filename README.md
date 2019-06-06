@@ -16,7 +16,7 @@ Implement a Pokedex using react hooks.
 - [x] (10 pt) Set focus on search box on page load
 - [x] (10 pt) Mark/Unmark a Pokemon as favorite
 - [x] (10 px) Filter Pokemon by favorites
-- (10 pt) Toggle the favorites filter by key press (e.g. `f`)
+- [x] (10 pt) Toggle the favorites filter by key press (e.g. `f`)
 
 ### Resources
 

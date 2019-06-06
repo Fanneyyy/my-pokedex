@@ -68,6 +68,25 @@ let make = () => {
     [|showFavorites|],
   );
 
+  let favoriteKeyHandler = event => {
+    Webapi.Dom.KeyboardEvent.key(event) == "f"
+      ? toggleFavorites(oldFavorites => !oldFavorites) |> ignore : ();
+  };
+
+  React.useEffect0(() => {
+    Webapi.Dom.Window.addKeyDownEventListener(
+      favoriteKeyHandler,
+      Webapi.Dom.window,
+    );
+    Some(
+      _ =>
+        Webapi.Dom.Window.removeKeyDownEventListener(
+          favoriteKeyHandler,
+          Webapi.Dom.window,
+        ),
+    );
+  });
+
   React.useEffect0(() => {
     Pokedex.GetPokemons.Query.query()
     |> Js.Promise.then_(response =>
