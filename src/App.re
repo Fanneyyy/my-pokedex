@@ -7,6 +7,7 @@ let make = () => {
   let (query, setQuery) = React.useState(() => "");
   let (pokemons, setPokemons) = React.useState(() => [||]);
   let (filterPokemons, setFilteredPokemons) = React.useState(() => [||]);
+  let (favoritePokemons, setFavoritePokemons) = React.useState(() => [||]);
 
   let searchRef = React.useRef(Js.Nullable.null);
   React.useEffect0(() => {
@@ -110,18 +111,32 @@ let make = () => {
         /* TODO: Filter favorite pokemons on 'f' key press */
 
           Belt.Array.map(filterPokemons, maybePokemon =>
-            Option.mapWithDefault(maybePokemon, React.null, pokemon =>
-              <Pokemon
-                key={pokemon##id}
-                pokemon
-                onClick={_ =>
-                  renderModal(
-                    <button onClick={_ => closeModal()}>
-                      {<PokemonDetails pokemon onClick={_ => closeModal()} />}
-                    </button>,
-                  )
-                }
-              />
+            Option.mapWithDefault(
+              maybePokemon,
+              React.null,
+              pokemon => {
+                let isFavorite =
+                  Belt.Array.some(favoritePokemons, fp => fp == pokemon##id);
+                <Pokemon
+                  key={pokemon##id}
+                  pokemon
+                  isFavorite
+                  onClickFavorite={_ =>
+                    setFavoritePokemons(favorites =>
+                      isFavorite
+                        ? Belt.Array.keep(favorites, fp => fp != pokemon##id)
+                        : Belt.Array.concat(favorites, [|pokemon##id|])
+                    )
+                  }
+                  onClick={_ =>
+                    renderModal(
+                      <button onClick={_ => closeModal()}>
+                        {<PokemonDetails pokemon onClick={_ => closeModal()} />}
+                      </button>,
+                    )
+                  }
+                />;
+              },
             )
           )
           ->React.array

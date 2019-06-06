@@ -1,7 +1,7 @@
 open Css;
 
 [@react.component]
-let make = (~pokemon, ~onClick) =>
+let make = (~pokemon, ~onClick, ~isFavorite, ~onClickFavorite) =>
   <button
     className={style([
       margin(px(10)),
@@ -45,5 +45,12 @@ let make = (~pokemon, ~onClick) =>
            <p> {React.string(name)} </p>
          )}
       </div>
+      <button
+        onClick={event => {
+          ReactEvent.Mouse.stopPropagation(event);
+          onClickFavorite();
+        }}>
+        {React.string(isFavorite ? "Unfavorite" : "Favorite")}
+      </button>
     </div>
   </button>;
