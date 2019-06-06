@@ -49,6 +49,9 @@ let make = () => {
         /* TODO: Start a timer onClick that closes the modal after 5 seconds */
         /* TODO: Display PokemonDetails onClick */
         /* TODO: Display a list of Pokemon */
+        /* TODO: Filter list of pokemon by search query */
+        /* TODO: Mark pokemons as favorites */
+        /* TODO: Filter favorite pokemons on 'f' key press */
 
           <button
             onClick={_ =>
