@@ -15,8 +15,9 @@ let make = () => {
     ->Option.map(myRef => ReactDOMRe.domElementToObj(myRef)##focus())
   );
 
+  let (favorites, addFavorite) = React.useState(() => []);
   let (search, onSearchChange) = React.useState(() => "");
-
+  Js.log(favorites);
   React.useEffect0(() => {
     Pokedex.GetPokemons.Query.query()
     |> Js.Promise.then_(response =>
@@ -66,7 +67,6 @@ let make = () => {
     </div>
     <Modal>
       ...{(renderModal, closeModal) =>
-        /* TODO: Focus on search box on page load */
         /* TODO: Mark pokemons as favorites */
         /* TODO: Filter favorite pokemons on 'f' key press */
 
@@ -89,6 +89,11 @@ let make = () => {
               ->Array.map(maybePoke => {
                   let poke = maybePoke->Option.getExn;
                   <Pokemon
+                    onFave={event => {
+                      ReactEvent.Mouse.stopPropagation(event);
+                      let newFaves = [poke##id, ...favorites];
+                      addFavorite(_ => newFaves);
+                    }}
                     key=poke##id
                     pokemon=poke
                     onClick={_ =>

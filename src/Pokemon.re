@@ -1,7 +1,7 @@
 open Css;
 
 [@react.component]
-let make = (~pokemon, ~onClick) =>
+let make = (~pokemon, ~onFave, ~onClick) =>
   <button
     className={style([
       margin(px(10)),
@@ -45,5 +45,6 @@ let make = (~pokemon, ~onClick) =>
            <p> {React.string(name)} </p>
          )}
       </div>
+      <button onClick=onFave> {ReasonReact.string("Fav this poke!")} </button>
     </div>
   </button>;
