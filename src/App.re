@@ -4,13 +4,18 @@ Utils.cssReset();
 
 [@react.component]
 let make = () => {
+  let (pokemons: option(Pokedex.GetPokemons.GraphQL.t), setPokemons) =
+    React.useState(() => None);
+
+  let (search, onSearchChange) = React.useState(() => "");
+
   React.useEffect0(() => {
     Pokedex.GetPokemons.Query.query()
     |> Js.Promise.then_(response =>
          (
            switch (response) {
            | `Data(data)
-           | `DataWithError(data, _) => Js.log(data) /* TODO: Store response */
+           | `DataWithError(data, _) => setPokemons(_ => Some(data))
            | `Error(_) => Js.log("Some error I guess :(")
            }
          )
@@ -25,8 +30,14 @@ let make = () => {
     </div>
     <div>
       <input
+        value=search
         type_="text"
         placeholder="Search for pokemon"
+        onChange={event => {
+          let e = event->ReactEvent.Form.target##value;
+          Js.log(e);
+          onSearchChange(e);
+        }}
         className={style([
           width(pct(100.)),
           borderStyle(`none),
@@ -46,23 +57,47 @@ let make = () => {
     </div>
     <Modal>
       ...{(renderModal, closeModal) =>
-        /* TODO: Display PokemonDetails onClick */
-        /* TODO: Display a list of Pokemon */
         /* TODO: Filter list of pokemon by search query */
         /* TODO: Focus on search box on page load */
         /* TODO: Mark pokemons as favorites */
         /* TODO: Filter favorite pokemons on 'f' key press */
 
-          <button
-            onClick={_ =>
-              renderModal(
-                <button onClick={_ => closeModal()}>
-                  {React.string("Modal")}
-                </button>,
-              )
-            }>
-            {ReasonReact.string("List")}
-          </button>
+          switch (pokemons) {
+          | Some(data) =>
+            switch (data##pokemons) {
+            | Some(pokemons) =>
+              let filteredPokemons =
+                Js.String.length(search) > 0
+                  ? pokemons->Array.keep(maybePoke => {
+                      let poke = maybePoke->Option.getExn;
+                      let name = poke##name->Option.getExn;
+                      let nameLower = Js.String.toLowerCase(name);
+                      let matches = search->Js.String.includes(nameLower);
+
+                      matches;
+                    })
+                  : pokemons;
+              filteredPokemons
+              ->Array.map(maybePoke => {
+                  let poke = maybePoke->Option.getExn;
+                  <Pokemon
+                    key=poke##id
+                    pokemon=poke
+                    onClick={_ =>
+                      renderModal(
+                        <PokemonDetails
+                          pokemon=poke
+                          onClick={_ => closeModal()}
+                        />,
+                      )
+                    }
+                  />;
+                })
+              ->React.array;
+            | None => React.string("Not available")
+            }
+          | None => React.string("Not available")
+          }
         }
     </Modal>
   </div>;
