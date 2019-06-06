@@ -11,7 +11,7 @@ Implement a Pokedex using react hooks.
 ### Scoring
 
 - [x] (10 pt) Display a list of the Pokemon
-- (10 pt) Select a Pokemon and open in a modal with more information
+- [x] (10 pt) Select a Pokemon and open in a modal with more information
 - (10 pt) Search a Pokemon by name
 - [x] (10 pt) Set focus on search box on page load
 - (10 pt) Mark/Unmark a Pokemon as favorite

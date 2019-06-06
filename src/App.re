@@ -6,6 +6,7 @@ Utils.cssReset();
 let make = () => {
   let (query, setQuery) = React.useState(() => "");
   let (pokemons, setPokemons) = React.useState(() => [||]);
+  let (currentPokemon, setCurrentPokemon) = React.useState(() => None);
 
   let searchRef = React.useRef(Js.Nullable.null);
   React.useEffect0(() => {
@@ -69,14 +70,6 @@ let make = () => {
         ])}
       />
     </div>
-    <div>
-      {Belt.Array.map(pokemons, maybePokemon =>
-         Option.mapWithDefault(maybePokemon, React.null, pokemon =>
-           <Pokemon key={pokemon##id} pokemon onClick={_ => ()} />
-         )
-       )
-       ->React.array}
-    </div>
     <Modal>
       ...{(renderModal, closeModal) =>
         /* TODO: Display PokemonDetails onClick */
@@ -86,17 +79,24 @@ let make = () => {
         /* TODO: Mark pokemons as favorites */
         /* TODO: Filter favorite pokemons on 'f' key press */
 
-          <button
-            onClick={_ =>
-              renderModal(
-                <button onClick={_ => closeModal()}>
-                  {React.string("Modal")}
-                </button>,
-              )
-            }>
-            {ReasonReact.string("List")}
-          </button>
+          Belt.Array.map(pokemons, maybePokemon =>
+            Option.mapWithDefault(maybePokemon, React.null, pokemon =>
+              <Pokemon
+                key={pokemon##id}
+                pokemon
+                onClick={_ =>
+                  renderModal(
+                    <button onClick={_ => closeModal()}>
+                      {<PokemonDetails pokemon onClick={_ => closeModal()} />}
+                    </button>,
+                  )
+                }
+              />
+            )
+          )
+          ->React.array
         }
     </Modal>
+    <div />
   </div>;
 };
