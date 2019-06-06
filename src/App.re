@@ -18,9 +18,8 @@ let make = () => {
   let (showFavorites, toggleFav) = React.useState(() => false);
 
   let faveKeyBoardHandler = event => {
-    Js.log(Webapi.Dom.KeyboardEvent.key(event));
     Webapi.Dom.KeyboardEvent.key(event) == "f"
-      ? toggleFav(_ => !showFavorites) |> ignore : ();
+      ? toggleFav(prevShowFavorites => !prevShowFavorites) |> ignore : ();
   };
 
   React.useEffect0(() => {
@@ -39,7 +38,7 @@ let make = () => {
 
   let (favorites, addFavorite) = React.useState(() => []);
   let (search, onSearchChange) = React.useState(() => "");
-  Js.log(favorites);
+  
   React.useEffect0(() => {
     Pokedex.GetPokemons.Query.query()
     |> Js.Promise.then_(response =>
@@ -89,14 +88,22 @@ let make = () => {
     </div>
     <Modal>
       ...{(renderModal, closeModal) =>
-        /* TODO: Mark pokemons as favorites */
-        /* TODO: Filter favorite pokemons on 'f' key press */
-
           switch (pokemons) {
           | Some(data) =>
             switch (data##pokemons) {
             | Some(pokemons) =>
               let filteredPokemons =
+                showFavorites
+                  ? pokemons->Array.keep(maybePoke => {
+                      let poke = maybePoke->Option.getExn;
+                      let id = poke##id;
+                      let matches = Belt.Array.some(Belt.List.toArray(favorites),
+                        favId => favId == id
+                      )
+
+                      matches;
+                    })
+                  :
                 Js.String.length(search) > 0
                   ? pokemons->Array.keep(maybePoke => {
                       let poke = maybePoke->Option.getExn;
