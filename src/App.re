@@ -4,6 +4,16 @@ Utils.cssReset();
 
 [@react.component]
 let make = () => {
+  let searchRef = React.useRef(Js.Nullable.null);
+  React.useEffect0(() => {
+    // get focus search
+    searchRef
+    ->React.Ref.current
+    ->Js.Nullable.toOption
+    ->(Option.map(r => ReactDOMRe.domElementToObj(r)##focus()))
+    ->ignore;
+    None;
+  });
   React.useEffect0(() => {
     Pokedex.GetPokemons.Query.query()
     |> Js.Promise.then_(response =>
@@ -25,6 +35,7 @@ let make = () => {
     </div>
     <div>
       <input
+        ref={ReactDOMRe.Ref.domRef(searchRef)}
         type_="text"
         placeholder="Search for pokemon"
         className={style([
