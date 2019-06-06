@@ -11,9 +11,8 @@ Implement a Pokedex using react hooks.
 - (10 pt) Select a Pokemon and open in a modal with more information
 - (10 pt) Close the modal after 5 seconds
 - (10 pt) Search a Pokemon by name
-- (10 pt) Navigate inside a modal to the next/previous Pokemon using the arrow keys (before it closes 😱)
 - (10 pt) Mark a Pokemon as favorite
-- (10 pt) Filter Pokemon by favorites
+- (20 pt) Filter Pokemon by favorites and toggle the filter by key press (e.g. `f`)
 
 ### Resources
 - Use components `Pokemon` and `PokemonDetails` (basically the same but feel free to change and add stuff to the `PokemonDetails`)

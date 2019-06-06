@@ -7,7 +7,6 @@ let make = (~pokemon, ~onClick) =>
       width(pct(100.)),
       height(pct(100.)),
       margin(px(10)),
-      hover([opacity(0.7), cursor(`pointer)]),
     ])}
     key={Option.getWithDefault(pokemon##name, "")}
     onClick>
@@ -47,7 +46,7 @@ let make = (~pokemon, ~onClick) =>
         {Option.mapWithDefault(pokemon##name, React.null, name =>
            <p> {React.string(name)} </p>
          )}
-        {Option.mapWithDefault(pokemon##name, React.null, name =>
+        {Option.mapWithDefault(pokemon##evolutions, React.null, _evolution =>
            <p> {React.string("Some more details...")} </p>
          )}
       </div>
