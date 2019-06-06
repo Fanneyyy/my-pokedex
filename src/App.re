@@ -46,10 +46,10 @@ let make = () => {
     </div>
     <Modal>
       ...{(renderModal, closeModal) =>
-        /* TODO: Start a timer onClick that closes the modal after 5 seconds */
         /* TODO: Display PokemonDetails onClick */
         /* TODO: Display a list of Pokemon */
         /* TODO: Filter list of pokemon by search query */
+        /* TODO: Focus on search box on page load */
         /* TODO: Mark pokemons as favorites */
         /* TODO: Filter favorite pokemons on 'f' key press */
 
