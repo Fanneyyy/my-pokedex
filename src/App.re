@@ -15,6 +15,28 @@ let make = () => {
     ->Option.map(myRef => ReactDOMRe.domElementToObj(myRef)##focus())
   );
 
+  let (showFavorites, toggleFav) = React.useState(() => false);
+
+  let faveKeyBoardHandler = event => {
+    Js.log(Webapi.Dom.KeyboardEvent.key(event));
+    Webapi.Dom.KeyboardEvent.key(event) == "f"
+      ? toggleFav(_ => !showFavorites) |> ignore : ();
+  };
+
+  React.useEffect0(() => {
+    Webapi.Dom.Window.addKeyDownEventListener(
+      faveKeyBoardHandler,
+      Webapi.Dom.window,
+    );
+    Some(
+      _ =>
+        Webapi.Dom.Window.removeKeyDownEventListener(
+          faveKeyBoardHandler,
+          Webapi.Dom.window,
+        ),
+    );
+  });
+
   let (favorites, addFavorite) = React.useState(() => []);
   let (search, onSearchChange) = React.useState(() => "");
   Js.log(favorites);
