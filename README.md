@@ -19,7 +19,7 @@ Implement a Pokedex using react hooks.
 - GraphQL API https://graphql-pokemon.now.sh/ (already set up)
 
 ### Scoring and Reward
-The team with the highest score wins. E.g. if team A has 50 points and team B has 40 points, team A will be the winner. (Please don't name your team either A or B, they are taken!) The reward will depend on the winners 🤷.
+The team with the highest score wins (or first to finish!). E.g. if team A has 50 points and team B has 40 points, team A will be the winner. (Please don't name your team either A or B, they are taken!) The reward will depend on the winners 🤷.
 
 ## Run Project
 
